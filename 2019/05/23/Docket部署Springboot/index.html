@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Docket部署Springboot - Cxy的博客</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Cxy,"> 
+    <meta name="description" content="Docker简介Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，,"> 
+    <meta name="author" content="Cxy"> 
+    <link rel="alternative" href="atom.xml" title="Cxy的博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">Cxy的博客</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://CxyYuan.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Docket部署Springboot</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">Docket部署Springboot</h1>
+        <div class="stuff">
+            <span>五月 23, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/springboot/">springboot</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><p>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。</p>
+<h2 id="Docker的优点"><a href="#Docker的优点" class="headerlink" title="Docker的优点"></a>Docker的优点</h2><h5 id="更快速的交付和部署"><a href="#更快速的交付和部署" class="headerlink" title="更快速的交付和部署"></a>更快速的交付和部署</h5><p>对开发和运维（devop）人员来说，最希望的就是一次创建或配置，可以在任意地方正常运行。<br>开发者可以使用一个标准的镜像来构建一套开发容器，开发完成之后，运维人员可以直接使用这个容器来部署代码。 Docker 容器很轻很快！容器的启动时间是秒级的，大量地节约开发、测试、部署的时间。</p>
+<h5 id="更高效的虚拟化"><a href="#更高效的虚拟化" class="headerlink" title="更高效的虚拟化"></a>更高效的虚拟化</h5><p>　　Docker 容器的运行不需要额外的 hypervisor(虚拟化管理程序)支持，它是内核级的虚拟化，因此可以实现更高的性能和效率。</p>
+<h5 id="更轻松的迁移和扩展"><a href="#更轻松的迁移和扩展" class="headerlink" title="更轻松的迁移和扩展"></a>更轻松的迁移和扩展</h5><p>　　Docker 容器几乎可以在任意的平台上运行，包括物理机、虚拟机、公有云、私有云、个人电脑、服务器等。 这种兼容性可以让用户把一个应用程序从一个平台直接迁移到另外一个。</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th style="text-align:center">容器（Docker）</th>
+<th style="text-align:center">虚拟机（VM）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启动</td>
+<td style="text-align:center">秒级</td>
+<td style="text-align:center">分钟级</td>
+</tr>
+<tr>
+<td>硬盘使用</td>
+<td style="text-align:center">MB级</td>
+<td style="text-align:center">GB级</td>
+</tr>
+<tr>
+<td>性能</td>
+<td style="text-align:center">接近原生</td>
+<td style="text-align:center">弱于原生</td>
+</tr>
+<tr>
+<td>系统支持量</td>
+<td style="text-align:center">单机支持上千容器</td>
+<td style="text-align:center">单机支持十几个</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Docker的局限"><a href="#Docker的局限" class="headerlink" title="Docker的局限"></a>Docker的局限</h2><ol>
+<li>Docker是基于Linux 64bit的，无法在windows/unix或32bit的linux环境下使用</li>
+<li>LXC是基于linux kernel的，因此container的guest系统只能是linux base的</li>
+<li>隔离性比KVM虚拟化方案还是有些欠缺，所有container公用一部分的运行库</li>
+<li>网络管理相对简单，主要是基于namespace隔离</li>
+<li>cgroup的cpu功能相比KVM的等虚拟化方案相比难以度量</li>
+<li>docker对disk的管理比较有限</li>
+<li>container随着用户进程的停止而销毁，container中的log等用户数据不便收集<br>1-2 有windows base应用的是不能使用Docker的<br>3-5 用户的需求，到底是需要一个container还是一个VM,同时也决定docker作为IaaS不太可行<br>6-7 虽然是docker本身不支持的功能，但是可以通过其他手段解决(disk quota, mount –bind)。总之，选用container还是vm, 就是在隔离性和资源复用性上做权衡</li>
+</ol>
+<h2 id="Springboot集成Docker"><a href="#Springboot集成Docker" class="headerlink" title="Springboot集成Docker"></a>Springboot集成Docker</h2><p>先准备一个Spirngboot项目<br>在项目根目录的pom.xml文件下添加一条properties<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">docker.image.prefix</span>&gt;</span>springboot<span class="tag">&lt;/<span class="name">docker.image.prefix</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>plugins 中添加 Docker 构建插件：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- Docker maven plugin --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spotify<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>docker-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">imageName</span>&gt;</span>$&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">imageName</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">dockerDirectory</span>&gt;</span>src/main/docker<span class="tag">&lt;/<span class="name">dockerDirectory</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">targetPath</span>&gt;</span>/<span class="tag">&lt;/<span class="name">targetPath</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.build.directory&#125;<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">include</span>&gt;</span>$&#123;project.build.finalName&#125;.jar<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- Docker maven plugin --&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在目录src/main/docker下创建 Dockerfile 文件，Dockerfile 文件用来说明如何来构建镜像。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM openjdk:8-jdk-alpine</span><br><span class="line">VOLUME /tmp</span><br><span class="line">ADD cxy-mybatis.jar app.jar</span><br><span class="line">RUN bash -c &apos;touch /app.jar&apos;</span><br><span class="line">ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;/app.jar&quot;]</span><br></pre></td></tr></table></figure></p>
+<p>这个 Dockerfile 文件很简单，构建 Jdk 基础环境，添加 Spring Boot Jar 到镜像中，简单解释一下:</p>
+<ul>
+<li>FROM ，表示使用 Jdk8 环境 为基础镜像，如果镜像不是本地的会从 DockerHub 进行下载</li>
+<li>VOLUME ，VOLUME 指向了一个/tmp的目录，由于 Spring Boot 使用内置的Tomcat容器，Tomcat 默认使用/tmp作为工作目录。这个命令的效果是：在宿主机的/var/lib/docker目录下创建一个临时文件并把它链接到容器中的/tmp目录</li>
+<li>ADD ，拷贝文件并且重命名</li>
+<li>ENTRYPOINT ，为了缩短 Tomcat 的启动时间，添加java.security.egd的系统属性指向/dev/urandom作为 ENTRYPOINT</li>
+</ul>
+<p>这样 Spring Boot 项目添加 Docker 依赖就完成了。</p>
+<h2 id="安装-Docker-环境"><a href="#安装-Docker-环境" class="headerlink" title="安装 Docker 环境"></a>安装 Docker 环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install docker</span><br></pre></td></tr></table></figure>
+<p>安装完成后，使用下面的命令来启动 docker 服务，并将其设置为开机启动：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">service docker start</span><br><span class="line">chkconfig docker on</span><br><span class="line"><span class="comment">#LCTT 译注：此处采用了旧式的 sysv 语法，如采用CentOS 7中支持的新式 systemd 语法，如下：</span></span><br><span class="line">systemctl  start docker.service</span><br><span class="line">systemctl  <span class="built_in">enable</span> docker.service</span><br></pre></td></tr></table></figure></p>
+<p>如果启动出现问题<br><img src="/Docket部署Springboot/20190523111541482.png" alt><br>参考<br><a href="https://www.cnblogs.com/yufeng218/p/8370670.html" target="_blank" rel="noopener">Centos7上安装docker</a></p>
+<p>使用Docker 中国加速器<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vi  /etc/docker/daemon.json</span><br><span class="line">#添加后：</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"registry-mirrors"</span>: [<span class="string">"https://registry.docker-cn.com"</span>],</span><br><span class="line">    <span class="string">"live-restore"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>重新启动docker<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure></p>
+<p>输入docker version 返回版本信息则安装正常。</p>
+<h2 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install java-1.8.0-openjdk*</span><br></pre></td></tr></table></figure>
+<p>配置环境变量<br>打开 vim /etc/profile<br>添加一下内容<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> JAVA_HOME=<span class="regexp">/usr/</span>lib/jvm/java<span class="number">-1.8</span><span class="number">.0</span> </span><br><span class="line"><span class="keyword">export</span> PATH=$PATH:$&#123;JAVA_HOME&#125;/bin</span><br></pre></td></tr></table></figure></p>
+<p>修改完成之后，使其生效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
+<p>输入java -version 返回版本信息则安装正常。</p>
+<p>参考文献<br><a href="https://www.cnblogs.com/sxdcgaq8080/p/7492426.html" target="_blank" rel="noopener">CentOS7下安装JDK详细过程</a></p>
+<h2 id="安装MAVEN"><a href="#安装MAVEN" class="headerlink" title="安装MAVEN"></a>安装MAVEN</h2><p>下载：<a href="http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz" target="_blank" rel="noopener">http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">## 解压</span><br><span class="line">tar zxvf apache-maven-3.3.9-bin.tar.gz</span><br><span class="line">## 移动</span><br><span class="line">mv apache-maven-3.3.9 /usr/local/maven3</span><br></pre></td></tr></table></figure></p>
+<p>修改环境变量<br>打开 vim /etc/profile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/lib/jvm/java-1.8.0</span><br><span class="line">export MAVEN_HOME=/usr/local/maven3</span><br><span class="line">export PATH=$PATH:$&#123;JAVA_HOME&#125;/bin:$&#123;MAVEN_HOME&#125;/bin</span><br></pre></td></tr></table></figure></p>
+<p>修改完成之后，使其生效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
+<p>输入mvn -version 返回版本信息则安装正常。<br>这样整个构建环境就配置完成了。<br>参考文献<br><a href="https://www.cnblogs.com/bincoding/p/6156236.html" target="_blank" rel="noopener">CentOS安装Maven</a></p>
+<h2 id="使用Docker部署Springboot项目"><a href="#使用Docker部署Springboot项目" class="headerlink" title="使用Docker部署Springboot项目"></a>使用Docker部署Springboot项目</h2><p>将项目 cxy-mybatis 拷贝服务器中，进入项目路径下进行打包测试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#打包</span><br><span class="line">mvn package</span><br><span class="line">#启动</span><br><span class="line">java -jar springboot-mybatis-0.0.1-SNAPSHOT.jar</span><br></pre></td></tr></table></figure></p>
+<p>看到 Spring Boot 的启动日志后表明环境配置没有问题，接下来我们使用 DockerFile 构建镜像。</p>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>在我们之前配置docker的机器上 创建一个文件夹docker，放置上面的Dockerfile和springboot打包的项目<br><img src="/Docket部署Springboot/20190524095347146.png" alt><br>在改目录下执行指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t docker .</span><br></pre></td></tr></table></figure></p>
+<p>docker就会根据Dockerfile里你定义好的命令进行构建新的镜像。<br>-t代表要构建的镜像的tag .代表当前目录，也就是Dockerfile所在的目录。<br><img src="/Docket部署Springboot/20190524095754728.png" alt><br>在该docker文件下使用 指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 docker</span><br></pre></td></tr></table></figure></p>
+<p>运行该springBoot项目，可以看到构建完毕的景象docker了<br>最后访问浏览器，成功<br><img src="/Docket部署Springboot/20190524100048861.png" alt></p>
+<p>关闭运行中的容器<br><img src="/Docket部署Springboot/20190524101521640.png" alt></p>
+<h3 id="远程windows打包"><a href="#远程windows打包" class="headerlink" title="远程windows打包"></a>远程windows打包</h3><h4 id="开启Docker远程API"><a href="#开启Docker远程API" class="headerlink" title="开启Docker远程API"></a>开启Docker远程API</h4><p>修改docker配置文件<br>vi /usr/lib/systemd/system/docker.service<br><img src="/Docket部署Springboot/20190523035754629.png" alt><br>保存后退出，重载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload </span><br><span class="line">systemctl restart docker.service</span><br></pre></td></tr></table></figure></p>
+<p>执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -anp|grep 2375</span><br></pre></td></tr></table></figure></p>
+<p><img src="/Docket部署Springboot/20190523035846249.png" alt><br>如果设置防火墙，或者限制ip的还需要放行2375端口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 2375 -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<h4 id="本地windows打包"><a href="#本地windows打包" class="headerlink" title="本地windows打包"></a>本地windows打包</h4><p>在项目pom.xml下添加远程地址dockHost和修改dockerDirectory<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Docker maven plugin --&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spotify<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>docker-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">imageName</span>&gt;</span>$&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">imageName</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">dockerHost</span>&gt;</span> http://192.168.1.69:2375<span class="tag">&lt;/<span class="name">dockerHost</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">dockerDirectory</span>&gt;</span>$&#123;project.basedir&#125;/src/main/docker<span class="tag">&lt;/<span class="name">dockerDirectory</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">targetPath</span>&gt;</span>/<span class="tag">&lt;/<span class="name">targetPath</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.build.directory&#125;<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">                           <span class="tag">&lt;<span class="name">include</span>&gt;</span>$&#123;project.build.finalName&#125;.jar<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                       <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">           <span class="comment">&lt;!-- Docker maven plugin --&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>远程服务器上查看<br><img src="/Docket部署Springboot/20190524104135497.png" alt><br>搞定，启动服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 springboot/springboot-mybatis</span><br></pre></td></tr></table></figure></p>
+<p>打包Error参考</p>
+<h4 id="Maven-不识别-docker-build"><a href="#Maven-不识别-docker-build" class="headerlink" title="Maven 不识别 docker:build"></a>Maven 不识别 docker:build</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ERROR] No plugin found for prefix &apos;docker&apos; in the current project and in the plugin groups...</span><br></pre></td></tr></table></figure>
+<p>解决办法是修改maven的配置文件，settings.xml。（pluginGroups在settings.xml中的位置很靠上）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;pluginGroups&gt;</span><br><span class="line">    &lt;pluginGroup&gt;com.spotify&lt;/pluginGroup&gt;</span><br><span class="line">&lt;/pluginGroups&gt;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.caoyong.io/225.html" target="_blank" rel="noopener">docker Error</a></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src>
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/xiangwozheyangderen.mp3"></li>
+                    
+                        <li title="1" data-url="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/xiangwozheyangderen.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci data-cs data-r data-o data-a data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
