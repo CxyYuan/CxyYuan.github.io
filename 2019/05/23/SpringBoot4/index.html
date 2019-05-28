@@ -136,7 +136,7 @@
 <p>打包Error参考</p>
 <h4 id="Maven-不识别-docker-build"><a href="#Maven-不识别-docker-build" class="headerlink" title="Maven 不识别 docker:build"></a>Maven 不识别 docker:build</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ERROR] No plugin found for prefix &apos;docker&apos; in the current project and in the plugin groups...</span><br></pre></td></tr></table></figure>
 <p>解决办法是修改maven的配置文件，settings.xml。（pluginGroups在settings.xml中的位置很靠上）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;pluginGroups&gt;</span><br><span class="line">    &lt;pluginGroup&gt;com.spotify&lt;/pluginGroup&gt;</span><br><span class="line">&lt;/pluginGroups&gt;</span><br></pre></td></tr></table></figure></p>
-<p><a href="https://www.caoyong.io/225.html" target="_blank" rel="noopener">docker Error</a><br><a href="https://blog.csdn.net/flydreamzhll/article/details/80900509" target="_blank" rel="noopener">docker指令</a></p>
+<p><a href="https://www.caoyong.io/225.html" target="_blank" rel="noopener">docker Error</a><br><a href="https://blog.csdn.net/flydreamzhll/article/details/80900509" target="_blank" rel="noopener">docker指令</a><br><a href="https://github.com/CxyYuan/cxy-springboot-demo" target="_blank" rel="noopener">示例代码-github</a></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">

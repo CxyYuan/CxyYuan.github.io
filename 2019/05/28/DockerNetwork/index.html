@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Docker容器互联方法 - Cxy的博客</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Cxy,"> 
+    <meta name="description" content="解决集群下docker容器之间不能互通知识要求：docker、eureka、springboot、linux
+用户定义的网络（User-Defined Networks）Docker公司在2015年,"> 
+    <meta name="author" content="Cxy"> 
+    <link rel="alternative" href="atom.xml" title="Cxy的博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">Cxy的博客</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://CxyYuan.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Docker容器互联方法</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">Docker容器互联方法</h1>
+        <div class="stuff">
+            <span>五月 28, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/docker/">docker</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>解决集群下docker容器之间不能互通<br>知识要求：docker、eureka、springboot、linux</p>
+<h2 id="用户定义的网络（User-Defined-Networks）"><a href="#用户定义的网络（User-Defined-Networks）" class="headerlink" title="用户定义的网络（User-Defined Networks）"></a>用户定义的网络（User-Defined Networks）</h2><p>Docker公司在2015年11月初发布了Docker 1.9.0，随之而来整合了一些令人兴奋的关于网络方面的新内容。通过这些更新，如果我们现在为了让两个容器间可以相互通信，那么只需要将他们放在同一网络或者子网中。</p>
+<p>先查看我们有哪些网络<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># docker network ls</span><br><span class="line">NETWORK ID          NAME                DRIVER              SCOPE</span><br><span class="line">9d0c19a4f82a        bridge              bridge              local</span><br><span class="line">bc5b9c020576        host                host                local</span><br><span class="line">6d27443c5a42        none                null                local</span><br></pre></td></tr></table></figure></p>
+<p>如果需要自建网络可以<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create testname</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528101211511.png" alt><br>由于我的需求是建立在本地网络，并且要对完开放，所以直接使用host就可以，不需要新建<br>不需要的就删除<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528101354270.png" alt></p>
+<h2 id="准备镜像"><a href="#准备镜像" class="headerlink" title="准备镜像"></a>准备镜像</h2><p>按照上一篇，远程传输两个jar包到我们的服务器上<br>先打包<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528101548981.png" alt><br>然后上传<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528101647946.png" alt><br>同样的步骤再执行一遍另一个项目springboot-mybatis<br>然后我们2个镜像都上传成功了<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528101839387.png" alt></p>
+<h2 id="启动镜像"><a href="#启动镜像" class="headerlink" title="启动镜像"></a>启动镜像</h2><p><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528102039337.png" alt><br>确认启动成功后，我们来执行页面预览<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528102130356.png" alt><br>注册服务成功~~~<br><a href="https://github.com/CxyYuan/cxy-springboot-demo" target="_blank" rel="noopener">示例代码-github</a></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src>
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/xiangwozheyangderen.mp3"></li>
+                    
+                        <li title="1" data-url="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/xiangwozheyangderen.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="9d79f99be815238e8471" data-cs="0ba03abcb81c6434dc052ab8a0ecc10af5e081ba" data-r="CxyYuan.github.io" data-o="CxyYuan" data-a="CxyYuan" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-140822910-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+</html>
