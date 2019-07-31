@@ -5,14 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Docker容器互联方法 - Cxy的博客</title>
+    <title>IntelliJ IDEA查看类的继承关系图形 - Cxy的博客</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <!--<meta http-equiv="Access-Control-Allow-Origin" content="*">-->
     <meta name="keywords" content="Cxy,"> 
-    <meta name="description" content="解决集群下docker容器之间不能互通知识要求：docker、eureka、springboot、linux
-用户定义的网络（User-Defined Networks）Docker公司在2015年,"> 
+    <meta name="description" content="查看图形形式的继承链项目目录树中选中，对你想查看的类点击右键，选择Diagrams打开你想查看的类的标签，点击右键，选择Diagrams然后就可以得到如下图的继承关系图形：我们以自定义的UserMa,"> 
     <meta name="author" content="Cxy"> 
     <link rel="alternative" href="atom.xml" title="Cxy的博客" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -28,7 +27,7 @@
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;" data-url="http://CxyYuan.github.io"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">Docker容器互联方法</h3>
+    <h3 class="subtitle">IntelliJ IDEA查看类的继承关系图形</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -46,22 +45,26 @@
     <div class="section">
         <div class="article">
     <div class="main">
-        <h1 class="title">Docker容器互联方法</h1>
+        <h1 class="title">IntelliJ IDEA查看类的继承关系图形</h1>
         <div class="stuff">
-            <span>五月 28, 2019</span>
+            <span>七月 30, 2019</span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/docker/">docker</a></li></ul>
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/IDE/">IDE</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/工具/">工具</a></li></ul>
 
 
         </div>
         <div class="content markdown">
-            <p>解决集群下docker容器之间不能互通<br>知识要求：docker、eureka、springboot、linux</p>
-<h2 id="用户定义的网络（User-Defined-Networks）"><a href="#用户定义的网络（User-Defined-Networks）" class="headerlink" title="用户定义的网络（User-Defined Networks）"></a>用户定义的网络（User-Defined Networks）</h2><p>Docker公司在2015年11月初发布了Docker 1.9.0，随之而来整合了一些令人兴奋的关于网络方面的新内容。通过这些更新，如果我们现在为了让两个容器间可以相互通信，那么只需要将他们放在同一网络或者子网中。</p>
-<p>先查看我们有哪些网络<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># docker network ls</span><br><span class="line">NETWORK ID          NAME                DRIVER              SCOPE</span><br><span class="line">9d0c19a4f82a        bridge              bridge              local</span><br><span class="line">bc5b9c020576        host                host                local</span><br><span class="line">6d27443c5a42        none                null                local</span><br></pre></td></tr></table></figure></p>
-<p>如果需要自建网络可以<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create testname</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528101211511.png" alt><br>由于我的需求是建立在本地网络，并且要对完开放，所以直接使用host就可以，不需要新建<br>不需要的就删除<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528101354270.png" alt></p>
-<h2 id="准备镜像"><a href="#准备镜像" class="headerlink" title="准备镜像"></a>准备镜像</h2><p>按照上一篇，远程传输两个jar包到我们的服务器上<br>先打包<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528101548981.png" alt><br>然后上传<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528101647946.png" alt><br>同样的步骤再执行一遍另一个项目springboot-mybatis<br>然后我们2个镜像都上传成功了<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528101839387.png" alt></p>
-<h2 id="启动镜像"><a href="#启动镜像" class="headerlink" title="启动镜像"></a>启动镜像</h2><p><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528102039337.png" alt><br>确认启动成功后，我们来执行页面预览<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/Docker%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E6%A0%BC/20190528102130356.png" alt><br>注册服务成功~~~<br><a href="https://github.com/CxyYuan/cxy-springboot-demo" target="_blank" rel="noopener">示例代码-github</a></p>
+            <h4 id="查看图形形式的继承链"><a href="#查看图形形式的继承链" class="headerlink" title="查看图形形式的继承链"></a>查看图形形式的继承链</h4><p>项目目录树中选中，对你想查看的类点击右键，选择Diagrams<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/IntelliJ-IDEA%E6%9F%A5%E7%9C%8B%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%BD%A2/20190730100938232.png" alt><br>打开你想查看的类的标签，点击右键，选择Diagrams<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/IntelliJ-IDEA%E6%9F%A5%E7%9C%8B%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%BD%A2/20190730101049189.png" alt><br>然后就可以得到如下图的继承关系图形：<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/IntelliJ-IDEA%E6%9F%A5%E7%9C%8B%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%BD%A2/20190730101147479.png" alt><br>我们以自定义的UserMapper为例<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/IntelliJ-IDEA%E6%9F%A5%E7%9C%8B%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%BD%A2/20190730101956140.png" alt><br>可以看到的是：</p>
+<ul>
+<li>实线箭头是指继承关系</li>
+<li>虚线箭头是指接口实现关系</li>
+</ul>
+<h4 id="优化继承图形"><a href="#优化继承图形" class="headerlink" title="优化继承图形"></a>优化继承图形</h4><h5 id="去掉不需要的"><a href="#去掉不需要的" class="headerlink" title="去掉不需要的"></a>去掉不需要的</h5><p>直接选中delete<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/IntelliJ-IDEA%E6%9F%A5%E7%9C%8B%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%BD%A2/20190730103540492.png" alt></p>
+<h5 id="查看关系类"><a href="#查看关系类" class="headerlink" title="查看关系类"></a>查看关系类</h5><p>直接在项目中的类，直接拖动进来（或者按空格或者右键Add Class to Diagram后输入类名）<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/IntelliJ-IDEA%E6%9F%A5%E7%9C%8B%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%BD%A2/20190730103814924.png" alt></p>
+<h5 id="查看方法"><a href="#查看方法" class="headerlink" title="查看方法"></a>查看方法</h5><p><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/IntelliJ-IDEA%E6%9F%A5%E7%9C%8B%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%BD%A2/20190730105907608.png" alt></p>
+<h5 id="查看方法权限"><a href="#查看方法权限" class="headerlink" title="查看方法权限"></a>查看方法权限</h5><p><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/IntelliJ-IDEA%E6%9F%A5%E7%9C%8B%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%BD%A2/20190730110830900.png" alt></p>
+<h5 id="放大查看"><a href="#放大查看" class="headerlink" title="放大查看"></a>放大查看</h5><p>按住Alt，就可出现放大镜<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/IntelliJ-IDEA%E6%9F%A5%E7%9C%8B%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%BD%A2/20190730110906362.png" alt></p>
+<h5 id="跳转到具体位置"><a href="#跳转到具体位置" class="headerlink" title="跳转到具体位置"></a>跳转到具体位置</h5><p>选择方法，右键Jumo to Source<br><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/IntelliJ-IDEA%E6%9F%A5%E7%9C%8B%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%BD%A2/20190730111032110.png" alt></p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
