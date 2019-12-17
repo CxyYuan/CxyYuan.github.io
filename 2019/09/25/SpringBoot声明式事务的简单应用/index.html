@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SpringBoot声明式事务的简单应用 - Cxy的博客</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <!--<meta http-equiv="Access-Control-Allow-Origin" content="*">-->
+    <meta name="keywords" content="Cxy,"> 
+    <meta name="description" content="Spring的事务机制所有的数据访问技术都有事务处理机制，这些技术提供了API用来开启事务、提交事务来完成数据操作，或者在发生错误的时候回滚数据。而Spring的事务机制是用统一的机制来处理不同数据,"> 
+    <meta name="author" content="Cxy"> 
+    <link rel="alternative" href="atom.xml" title="Cxy的博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">Cxy的博客</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://CxyYuan.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">SpringBoot声明式事务的简单应用</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">SpringBoot声明式事务的简单应用</h1>
+        <div class="stuff">
+            <span>九月 25, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/springboot/">springboot</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="Spring的事务机制"><a href="#Spring的事务机制" class="headerlink" title="Spring的事务机制"></a>Spring的事务机制</h2><p>所有的数据访问技术都有事务处理机制，这些技术提供了API用来开启事务、提交事务来完成数据操作，或者在发生错误的时候回滚数据。<br>而Spring的事务机制是用统一的机制来处理不同数据访问技术的事务处理。Spring的事务机制提供了一个PlatformTransactionManager接口，不同的数据访问技术的事务使用不同的接口实现：<br><img src="/SpringBoot声明式事务的简单应用/20190925110035148.png" alt><br>具体的PlatformTransactionManager继承关系如下：<br><img src="/SpringBoot声明式事务的简单应用/20190925114333571.png" alt></p>
+<h2 id="声明式事务"><a href="#声明式事务" class="headerlink" title="声明式事务"></a>声明式事务</h2><p>Spring声明式事务的实现，有两种方式；第一种是配置xml，第二种是使用相关注解。SpringBoot中默认配置了第二种方式，所以，SpringBoot直接使用注解即可。下面介绍SpringBoot通过注解开启事务的使用。</p>
+<h3 id="SpringBoot使用事务的步骤："><a href="#SpringBoot使用事务的步骤：" class="headerlink" title="SpringBoot使用事务的步骤："></a>SpringBoot使用事务的步骤：</h3><ol>
+<li><p>在pom.xml添加依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!--get，set插件--&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动类上开启事务支持</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableTransactionManagement</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SprintbootTramsaction</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">       SpringApplication.run(SprintbootTramsaction.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>备注：@EnableTransactionManagement注解其实在大多数情况下，不是必须的，因为SpringBoot在<br>           TransactionAutoConfiguration类里为我们自动配置启用了@EnableTransactionManagement注<br>           解。不过自动启用该注解有两个前提条件，分别是：<br>           @ConditionalOnBean(PlatformTransactionManager.class)<br>           和@ConditionalOnMissingBean(AbstractTransactionManagementConfiguration.class)，而一<br>           般情况下，这两个条件都是满足的，所以一般的，我们在启动类上写不写<br>           @EnableTransactionManagement都行。</p>
+<ol start="3">
+<li>在业务逻辑层接口实现的相关方法添加事务声明<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveSomething</span><span class="params">(Long id, String name)</span> </span>&#123; </span><br><span class="line"> <span class="comment">//数据库操作 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>Transactional注解的常用属性表：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>propagation</td>
+<td>事务的传播行为，默认值为 REQUIRED。 </td>
+</tr>
+<tr>
+<td>isolation</td>
+<td>事务的隔离度，默认值采用 DEFAULT</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>事务的超时时间，默认值为-1，不超时。如果设置了超时时间(单位秒)，那么如果超过该时间限制了但事务还没有完成，则自动回滚事务。</td>
+</tr>
+<tr>
+<td>read-only</td>
+<td>指定事务是否为只读事务，默认值为 false；为了忽略那些不需要事务的方法，比如读取数据，可以设置 read-only 为 true。</td>
+</tr>
+<tr>
+<td>rollbackFor</td>
+<td>用于指定能够触发事务回滚的异常类型，如果有多个异常类型需要指定，各类型之间可以通过逗号分隔。{xxx1.class, xxx2.class,……}</td>
+</tr>
+<tr>
+<td>noRollbackFor</td>
+<td>抛出 no-rollback-for 指定的异常类型，不回滚事务。{xxx1.class, xxx2.class,……}</td>
+</tr>
+</tbody>
+</table>
+<p>……</p>
+<p>备注：</p>
+<ul>
+<li>service实现类(一般不建议在接口上)上添加@Transactional，可以将整个类纳入spring事务管理，在每个业务方法执行时都会开启一个事务，不过这些事务采用相同的管理方式。</li>
+<li>Transactional 注解只能应用到 public 可见度的方法上。 如果应用在protected、private或者 package可见度的方法上，也不会报错，不过事务设置不会起作用。</li>
+<li>默认情况下，Transactional 注解的事物所管理的方法中，如果方法抛出运行时异常或error，那么会进行事务回滚；如果方法抛出的是非运行时异常，那么不会回滚。</li>
+<li>SQL异常属于检查异常（有的框架将SQL异常重写为了运行时异常），但是有时我们写SQL时，检查异常并不会提示；而默认情况下，事物对检查异常不会作出回滚处理。</li>
+<li>在很多时候，我们除了catch一般的异常或自定义异常外，我们还习惯于catch住Exception异常；然后再抛出Exception异常。但是Exception异常属于非运行时异常(即：检查异常)，因为默认是运行时异常时事物才进行回滚，那么这种情况下，是不会回滚的。我们可以在@Transacional注解中，通过rollbackFor = {Exception.class} 来解决这个问题。即：设置当Exception异常或Exception的所有任意子类异常时事物会进行回滚。</li>
+<li>被catch处理了的异常，不会被事物作为判断依据；如果异常被catch 了，但是又在catch中抛出了新的异常，那么事物会以这个新的异常作 为是否进行回滚的判断依据。</li>
+</ul>
+<p>事务的传播机制（行为）：<br>事务的传播行为是指，如果在开始当前事务之前，一个事务上下文已经存在，此时有若干选项可以指定一个事务性方法的执行行为。<br>即：在执行一个@Transactinal注解标注的方法时，开启了事务；当该方法还在执行中时，另一个人也触发了该方法；<br>   那么此时怎么算事务呢，这时就可以通过事务的传播机制来指定处理方式。</p>
+<h5 id="在TransactionDefinition定义中包括了如下几个表示传播行为的常量："><a href="#在TransactionDefinition定义中包括了如下几个表示传播行为的常量：" class="headerlink" title="在TransactionDefinition定义中包括了如下几个表示传播行为的常量："></a>在TransactionDefinition定义中包括了如下几个表示传播行为的常量：</h5><table>
+<thead>
+<tr>
+<th>常量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TransactionDefinition.PROPAGATION_REQUIRED</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。这是默认值。</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_REQUIRES_NEW</td>
+<td>创建一个新的事务，如果当前存在事务，则把当前事务挂起。</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_SUPPORTS</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</td>
+<td>以非事务方式运行，如果当前存在事务，则把当前事务挂起。</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_NEVER</td>
+<td>以非事务方式运行，如果当前存在事务，则抛出异常。</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_MANDATORY</td>
+<td>如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。</td>
+</tr>
+<tr>
+<td>TransactionDefinition.PROPAGATION_NESTED</td>
+<td>如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于TransactionDefinition.PROPAGATION_REQUIRED。</td>
+</tr>
+</tbody>
+</table>
+<h5 id="事务补充："><a href="#事务补充：" class="headerlink" title="事务补充："></a>事务补充：</h5><p>同一个事务里面，对某一条数据的增删改、 都会影响到这个事务里面接下来的对这个条数的增删改查，如(举例部分情况):</p>
+<table>
+<thead>
+<tr>
+<th>说明</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一个事务里面，debug未完成时， 数据会入库吗？</td>
+<td>不会</td>
+</tr>
+<tr>
+<td>一个事务里面，执行一半时，程序莫名停了，数据会回滚吗？</td>
+<td>会</td>
+</tr>
+<tr>
+<td>同一个事务里面，插入(数据a) -&gt; 查询(数据a) -&gt; 修改(数据a) -&gt; 插入(数据a)，可以吗？</td>
+<td>可以</td>
+</tr>
+<tr>
+<td>同一个事务里面，插入(数据a) -&gt; 修改(数据a) -&gt; 再次修改(数据a) -&gt; 查询(数据a)，可以吗</td>
+<td>可以</td>
+</tr>
+<tr>
+<td>同一个事务里面，插入(数据a) -&gt; 修改(数据a) -&gt; 删除(数据a)，可以吗？</td>
+<td>可以</td>
+</tr>
+<tr>
+<td>……</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>参考链接：<br><a href="http://www.voidcn.com/article/p-bozwatyd-st.html" target="_blank" rel="noopener">http://www.voidcn.com/article/p-bozwatyd-st.html</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-master-spring-transactional-use/" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-master-spring-transactional-use/</a></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src>
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/xiangwozheyangderen.mp3"></li>
+                    
+                        <li title="1" data-url="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/xiangwozheyangderen.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="9d79f99be815238e8471" data-cs="0ba03abcb81c6434dc052ab8a0ecc10af5e081ba" data-r="CxyYuan.github.io" data-o="CxyYuan" data-a="CxyYuan" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-140822910-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+</html>
