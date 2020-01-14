@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>关于int和Integer不得不说的事 - Cxy的博客</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <!--<meta http-equiv="Access-Control-Allow-Origin" content="*">-->
+    <meta name="keywords" content="Cxy,"> 
+    <meta name="description" content="任何一个学过 Java 的人，肯定知道 int 是原始数据类型，Integer 是一个对象，他们之间可以自动地拆箱装箱。但，如果继续挖掘，仍然大有分析地余地。你，真的懂 int 和 Integer ,"> 
+    <meta name="author" content="Cxy"> 
+    <link rel="alternative" href="atom.xml" title="Cxy的博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">Cxy的博客</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://CxyYuan.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">关于int和Integer不得不说的事</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">关于int和Integer不得不说的事</h1>
+        <div class="stuff">
+            <span>一月 14, 2020</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/java基础/">java基础</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>任何一个学过 Java 的人，肯定知道 int 是原始数据类型，Integer 是一个对象，他们之间可以自动地拆箱装箱。但，如果继续挖掘，仍然大有分析地余地。你，真的懂 int 和 Integer 了吗？</p>
+<p>我们先来看一段代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Integer i = <span class="number">10</span>;</span><br><span class="line">    Integer j = <span class="number">10</span>;</span><br><span class="line">    System.out.println(i == j);</span><br><span class="line">      </span><br><span class="line">    Integer a = <span class="number">128</span>;</span><br><span class="line">    Integer b = <span class="number">128</span>;</span><br><span class="line">    System.out.println(a == b);</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">10</span>;</span><br><span class="line">    System.out.println(k == i);</span><br><span class="line">    <span class="keyword">int</span> kk = <span class="number">128</span>;</span><br><span class="line">    System.out.println(kk == a);</span><br><span class="line">      </span><br><span class="line">    Integer m = <span class="keyword">new</span> Integer(<span class="number">10</span>);</span><br><span class="line">    Integer n = <span class="keyword">new</span> Integer(<span class="number">10</span>);</span><br><span class="line">    System.out.println(m == n);</span><br><span class="line">&#125;</span><br><span class="line">运行结果</span><br><span class="line"><span class="keyword">true</span></span><br><span class="line"><span class="keyword">false</span></span><br><span class="line"><span class="keyword">true</span></span><br><span class="line"><span class="keyword">true</span></span><br><span class="line"><span class="keyword">false</span></span><br></pre></td></tr></table></figure></p>
+<p>①、第一个打印结果为 true</p>
+<p>　　对于 i == j ,我们知道这是两个Integer类，他们比较应该是用equals，这里用==比较的是地址，那么结果肯定为false，但是实际上结果为true，这是为什么？</p>
+<p>　　我们进入到Integer 类的valueOf()方法：<br>  <img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/%E5%85%B3%E4%BA%8E-int-%E5%92%8C-Integer-%E4%B8%8D%E5%BE%97%E4%B8%8D%E8%AF%B4%E7%9A%84%E4%BA%8B/20200114044513164.png" alt><br>　　分析源码我们可以知道在 i &gt;= -128 并且 i &lt;= 127 的时候，第一次声明会将 i 的值放入缓存中，第二次直接取缓存里面的数据，而不是重新创建一个Ingeter 对象。那么第一个打印结果因为 i = 10 在缓存表示范围内，所以为 true。</p>
+<p>　　②、第二个打印结果为 false</p>
+<p>　　从上面的分析我们知道，128是不在-128到127之间的，所以第一次创建对象的时候没有缓存，第二次创建了一个新的Integer对象。故打印结果为false</p>
+<p>　　③、第三个打印结果为 true</p>
+<p>　　Integer 的自动拆箱功能，也就是比较两个基本数据类型，结果当然为true</p>
+<p>　　④、第四个打印结果为 true</p>
+<p>　　解释和第三个一样。int和integer(无论new否)比，都为true，因为会把Integer自动拆箱为int再去比较。</p>
+<p>　　⑤、第五个打印结果为 false</p>
+<p>　　因为这个虽然值为10，但是我们都是通过 new 关键字来创建的两个对象，是不存在缓存的概念的。两个用new关键字创建的对象用 == 进行比较，结果当然为 false。</p>
+<h3 id="关于自动拆箱和装箱"><a href="#关于自动拆箱和装箱" class="headerlink" title="关于自动拆箱和装箱"></a>关于自动拆箱和装箱</h3><p>我们都知道 int 和 Integer 可以自动相互转换，这是 Java 给我们提供的一种语法糖，但是，它是“怎么”转换的？在什么时候转换？是编译期还是运行期？<br>简单来讲：自动装箱就是Integer.valueOf(int i);自动拆箱就是 i.intValue();<br>眼见为实，让我们编写一段代码来实际看看过程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestClass</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inc</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        Integer integer = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> unboxing = integer ++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这是一段普通的代码，但它完整包含了三个动作：将一个原始数据类型转换成包装类型、将一个包装类型转换成一个原始数据类型、对一个包装类型进行直接的运算。</p>
+<p>接下来通过 <code>javap -verbose</code> 指令解析编译后的 class 文件，以下是在我的电脑上的 JDK 1.8 版本解析的结果，看看编译过程发生了什么事<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inc</span><span class="params">()</span></span>;</span><br><span class="line">   descriptor: ()V</span><br><span class="line">   flags: ACC_PUBLIC</span><br><span class="line">   Code:</span><br><span class="line">     stack=<span class="number">2</span>, locals=<span class="number">5</span>, args_size=<span class="number">1</span></span><br><span class="line">        <span class="number">0</span>: iconst_1</span><br><span class="line">        1: invokestatic  #2                  // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;</span><br><span class="line">        <span class="number">4</span>: astore_1</span><br><span class="line">        <span class="number">5</span>: aload_1</span><br><span class="line">        <span class="number">6</span>: astore_3</span><br><span class="line">        <span class="number">7</span>: aload_1</span><br><span class="line">        8: invokevirtual #3                  // Method java/lang/Integer.intValue:()I</span><br><span class="line">       <span class="number">11</span>: iconst_1</span><br><span class="line">       <span class="number">12</span>: iadd</span><br><span class="line">       13: invokestatic  #2                  // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;</span><br><span class="line">       <span class="number">16</span>: dup</span><br><span class="line">       <span class="number">17</span>: astore_1</span><br><span class="line">       <span class="number">18</span>: astore        <span class="number">4</span></span><br><span class="line">       <span class="number">20</span>: aload_3</span><br><span class="line">       21: invokevirtual #3                  // Method java/lang/Integer.intValue:()I</span><br><span class="line">       <span class="number">24</span>: istore_2</span><br><span class="line">       <span class="number">25</span>: <span class="keyword">return</span></span><br></pre></td></tr></table></figure></p>
+<p>这是节选自 inc() 方法的一段字节码，查看它的操作指令及注释，可以得出结论</p>
+<ul>
+<li>自动拆箱装箱是在编译期完成的</li>
+<li>javac 将装箱操作用<code>Integer.valueOf()</code>代替了，将拆箱用<code>Integer.intValue()</code>代替了</li>
+<li>包装对象的运算，要先拆箱成原始数据类型，进行运算完毕后再装箱</li>
+</ul>
+<p>通过对这个反编译例子的研究，我们就明白，在以后编程中，需要进行大量计算的地方，应该使用原始数据类型，在性能敏感的场合，优先使用原始数据类型。</p>
+<h3 id="关于-Integer-源码"><a href="#关于-Integer-源码" class="headerlink" title="关于 Integer 源码"></a>关于 Integer 源码</h3><p>整体看一下 Integer 类的源码，可以发现这个类主要是由几个常量，两个装箱拆箱方法，一些进制转换方法，一些位操作方法组成。<br>其中有几个比较有意思的点，</p>
+<h4 id="类和常量都被-final-修饰了起来。"><a href="#类和常量都被-final-修饰了起来。" class="headerlink" title="类和常量都被 final 修饰了起来。"></a>类和常量都被 final 修饰了起来。</h4><p>很容易由此联想到这是一个不可变类 (immutable），由此想到不可变类的设计原则：</p>
+<ul>
+<li>类标识打上 final 标志</li>
+<li>类变量使用 final 修饰</li>
+<li>提供构造或者工厂方法设置类变量的初始值，不提供<code>set</code>方法</li>
+<li>构造时，对引用类型使用深拷贝，避免外部不确定因素的影响</li>
+<li>将集合改为不可变集合，比如使用 Java 9<code>List.of()</code>方法</li>
+</ul>
+<h4 id="特别的常量"><a href="#特别的常量" class="headerlink" title="特别的常量"></a>特别的常量</h4><p>Integer 类除了提供最大、最小的常数外，还提供了位数和字节数的两个常量。后面这两个常量，值得提一下。</p>
+<p>如果我们写过 c 或者 c++ 语言，就会知道，在这两种语言中， int 类型在 32 位和 64 位系统中是不确定的。而在 Java 中，我们无需担忧这种不同，因为在 Java 语言规范中明确规定了各种基本类型的长度。</p>
+<p><a href="https://docs.oracle.com/javase/specs/jls/se10/html/jls-4.html#jls-4.2" target="_blank" rel="noopener">https://docs.oracle.com/javase/specs/jls/se10/html/jls-4.html#jls-4.2</a><br>这也是 Java 实现它的承诺——一次书写，到处运行，的一个细节。</p>
+<h4 id="关于缓存"><a href="#关于缓存" class="headerlink" title="关于缓存"></a>关于缓存</h4><p>我们都知道 Java 自动缓存了一个小范围的整数值。并且都在无数的地方中看到了别人对这个范围的描述—— -128~127。但，如果读过了 Integer 的源码，你就会发现这是错误的说法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> low = -<span class="number">128</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> high;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> Integer cache[];</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="comment">// high value may be configured by property</span></span><br><span class="line">    <span class="keyword">int</span> h = <span class="number">127</span>;</span><br><span class="line">    String integerCacheHighPropValue =</span><br><span class="line">        sun.misc.VM.getSavedProperty(<span class="string">"java.lang.Integer.IntegerCache.high"</span>);</span><br><span class="line">    <span class="keyword">if</span> (integerCacheHighPropValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">int</span> i = parseInt(integerCacheHighPropValue);</span><br><span class="line">            i = Math.max(i, <span class="number">127</span>);</span><br><span class="line">            <span class="comment">// Maximum array size is Integer.MAX_VALUE</span></span><br><span class="line">            h = Math.min(i, Integer.MAX_VALUE - (-low) -<span class="number">1</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span>( NumberFormatException nfe) &#123;</span><br><span class="line">            <span class="comment">// If the property cannot be parsed into an int, ignore it.</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    high = h;</span><br><span class="line"></span><br><span class="line">    cache = <span class="keyword">new</span> Integer[(high - low) + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">int</span> j = low;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; cache.length; k++)</span><br><span class="line">        cache[k] = <span class="keyword">new</span> Integer(j++);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// range [-128, 127] must be interned (JLS7 5.1.7)</span></span><br><span class="line">    <span class="keyword">assert</span> IntegerCache.high &gt;= <span class="number">127</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在生成缓存的这段代码中，我们注意到了一个细节，范围的下限确实是 -128，但上限是可以调节的。<br>如果我们的程序需要更大的缓存范围，我们可以通过在启动 JVM 时增加参数<code>-XX:AutoBoxCacheMax=N</code>，来设置这个缓存范围的上限。</p>
+<p>对于缓存，还可以同样观察下其他基本类型的包装类，都同样做了一个小范围的缓存。</p>
+<h4 id="关于占用空间"><a href="#关于占用空间" class="headerlink" title="关于占用空间"></a>关于占用空间</h4><p>如果我们要创建 10 万个整数，那么光是对象头的占用空间，Integer 就要比 int 多出一个数量级。这是对象机制不可避免带来的问题，我们在编写操作大量数据的代码时，也应该考虑占用空间的问题。</p>
+<h4 id="关于线程安全"><a href="#关于线程安全" class="headerlink" title="关于线程安全"></a>关于线程安全</h4><p>我们都知道，不可变类是实现线程安全共享对象的一种方式。但是原始元素类型的运算就不是线程安全的。如果多个线程同时对一个 int 对象做运算，就可能引发并发问题。</p>
+<p>如果有线程安全计算的需要，可以使用 AtomicInteger 这样的线程安全类进行计算。</p>
+<p>但，如果不想涉及到类，想直接在原始数据类型上做并发操作，也是有办法的。Java 提供了 AtomicIntegerFieldUpdater 这样的类进行 cas 安全操作。下面是使用原始数据类型实现一个计数器的方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">CompactCounter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">long</span> counter;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> AtomicLongFieldUpdater&lt;CompactCounter&gt; updater = AtomicLongFieldUpdater.newUpdater(CompactCounter.class, <span class="string">"counter"</span>);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">increase</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        updater.incrementAndGet(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="关于局限性"><a href="#关于局限性" class="headerlink" title="关于局限性"></a>关于局限性</h4><p>Java 走过了这么多年的历程，这种类型系统的设计已经是很久前的了，现在也逐渐暴露了一些缺点。</p>
+<ul>
+<li>原始数据类型不能和泛型完美配合。<br>Java 的泛型机制，是一种伪泛型，它在编译期将类型转换为特定的类型。这就要求相应类型可以转换为 Object。</li>
+<li>无法高效地表达数据<br>如果我们写过 python、scala。就会知道，这些语言中有 vector、tuple。极大地方便了我们编程，简洁了代码。<br>但是由于 Java 语言的实现机制，在对象数组中存放的是对象的引用，实际对象分散在堆内存的各个地方。这种方式虽然带来了极大的灵活性，但是却带来了数据操作的低效</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src>
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/xiangwozheyangderen.mp3"></li>
+                    
+                        <li title="1" data-url="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/%E5%9A%A3%E5%BC%A0_EN_545b_0708_535b_c1d7f5b6540b12556a69d1145fe26d1f.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="9d79f99be815238e8471" data-cs="0ba03abcb81c6434dc052ab8a0ecc10af5e081ba" data-r="CxyYuan.github.io" data-o="CxyYuan" data-a="CxyYuan" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-140822910-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+</html>
