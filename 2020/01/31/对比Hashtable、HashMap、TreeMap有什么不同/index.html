@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="zh-CN" class="loading">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -47,7 +47,7 @@ Has,">
 
     <div class="section">
         <div class="article">
-    <div class="main">
+    <div class='main'>
         <h1 class="title">对比Hashtable、HashMap、TreeMap有什么不同</h1>
         <div class="stuff">
             <span>一月 31, 2020</span>
@@ -63,9 +63,9 @@ Has,">
 <li>HashMap，支持null键和值，不同步，用键值对存取的首选</li>
 <li>TreeMap基于红黑树的一种访问的Map,存取的时间复杂度都是O(log(n))，且有序</li>
 </ul>
-<h3 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h3><p><img src="/20200131211836/20200131092135059.png" alt><br>LinkedHashMap和TreeMap都能保证某种顺序，但是还不太一样，LinkedHashMap提供的是遍历顺序符合插入顺序，它的实现是通过为条目维护一个双向链表。</p>
-<h3 id="HashMap源码分析"><a href="#HashMap源码分析" class="headerlink" title="HashMap源码分析"></a>HashMap源码分析</h3><p>HashMap内部结构的结构可以看作是数组和链表结合组成的复合结构，数组被分为一个个桶，通过哈希值决定了键值对在这个数组的寻址；哈希值相同的键值对，则以链表形式存储。如果链表大小超过阈值（8），图中链表就会被改造成树形结构<br><img src="/20200131211836/20200131092222158.png" alt><br>HashMap在构造函数的时候，并没有将数组初始化，在调用put方法的时候，在初始化了数组<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key,V value)</span></span>&#123;</span><br><span class="line"><span class="keyword">return</span> putVal(hash(key), key, value,<span class="keyword">false</span>,<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/20200131211836/20200131092250561.png" alt><br>从putVal方法最初的几行，我们可以发现：</p>
+<h3 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h3><p><img src="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/20200131211836/20200131092135059.png" alt><br>LinkedHashMap和TreeMap都能保证某种顺序，但是还不太一样，LinkedHashMap提供的是遍历顺序符合插入顺序，它的实现是通过为条目维护一个双向链表。</p>
+<h3 id="HashMap源码分析"><a href="#HashMap源码分析" class="headerlink" title="HashMap源码分析"></a>HashMap源码分析</h3><p>HashMap内部结构的结构可以看作是数组和链表结合组成的复合结构，数组被分为一个个桶，通过哈希值决定了键值对在这个数组的寻址；哈希值相同的键值对，则以链表形式存储。如果链表大小超过阈值（8），图中链表就会被改造成树形结构<br><img src="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/20200131211836/20200131092222158.png" alt><br>HashMap在构造函数的时候，并没有将数组初始化，在调用put方法的时候，在初始化了数组<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key,V value)</span></span>&#123;</span><br><span class="line"><span class="keyword">return</span> putVal(hash(key), key, value,<span class="keyword">false</span>,<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/20200131211836/20200131092250561.png" alt><br>从putVal方法最初的几行，我们可以发现：</p>
 <ul>
 <li>如果表格是null,resize会负责初始化它。</li>
 <li>resize方法兼顾两个职责，创建初始存储表格，或者在容量不满足需求的时候，进行扩容</li>
@@ -77,7 +77,7 @@ Has,">
 <ul>
 <li>链表结构（bin）会在达到门限值时，发生树化。</li>
 </ul>
-<h3 id="resize-源码"><a href="#resize-源码" class="headerlink" title="resize()源码"></a>resize()源码</h3><p><img src="/20200131211836/20200131092534543.png" alt></p>
+<h3 id="resize-源码"><a href="#resize-源码" class="headerlink" title="resize()源码"></a>resize()源码</h3><p><img src="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/20200131211836/20200131092534543.png" alt></p>
 <ul>
 <li>门限值（此处门限值指的是扩容的门限值，不是树化的阈值）等于（负载因子）× （容量），如果构建HashMap的时候没有指定它们，那么就是依据相应的默认常量值。门限值大部分都是整数</li>
 <li>扩展后，需要将老的数组中的元素，重新放置到新的数组，这是扩容的一个主要开销来源。</li>
@@ -88,24 +88,32 @@ Has,">
 <li>如果需要调整，不要设置超过0.75的数值，因为会显著增加冲突，降低HashMap的性能，导致桶太满，链表查找太严重（红黑树的时间复杂度是NlogN，数组的是N，在N比较大的时候，数组更快）</li>
 <li>如果太小会导致频繁扩容，增加无谓的开销</li>
 </ul>
-<h3 id="树化的代码"><a href="#树化的代码" class="headerlink" title="树化的代码"></a>树化的代码</h3><p><img src="/20200131211836/20200131092717553.png" alt><br>当bin数量也就是链表数量大于TREEIFY_THRESHOLD的时候：<br>如果容量小于MIN_TREEIFY_CAPACITY只会进行扩容，如果大于MIN_TREEIFY_CAPACITY的话就会进行树化<br>在元素放置过程中，如果一个对象hash冲突，都被放置到一个桶内则会形成一个链表，但是链表查询是线性的，严重影响存取性能</p>
+<h3 id="树化的代码"><a href="#树化的代码" class="headerlink" title="树化的代码"></a>树化的代码</h3><p><img src="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/20200131211836/20200131092717553.png" alt><br>当bin数量也就是链表数量大于TREEIFY_THRESHOLD的时候：<br>如果容量小于MIN_TREEIFY_CAPACITY只会进行扩容，如果大于MIN_TREEIFY_CAPACITY的话就会进行树化<br>在元素放置过程中，如果一个对象hash冲突，都被放置到一个桶内则会形成一个链表，但是链表查询是线性的，严重影响存取性能</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
-                <source type="audio/mpeg" src>
+                <source type="audio/mpeg" src="">
             </audio>
             
                 <ul id="audio-list" style="display:none">
                     
-                        <li title="0" data-url="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/xiangwozheyangderen.mp3"></li>
+                        <li title='0' data-url='https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/xiangwozheyangderen.mp3'></li>
                     
-                        <li title="1" data-url="https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/%E5%9A%A3%E5%BC%A0_EN_545b_0708_535b_c1d7f5b6540b12556a69d1145fe26d1f.mp3"></li>
+                        <li title='1' data-url='https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/%E5%9A%A3%E5%BC%A0_EN_545b_0708_535b_c1d7f5b6540b12556a69d1145fe26d1f.mp3'></li>
                     
                 </ul>
             
         </div>
         
-    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="9d79f99be815238e8471" data-cs="0ba03abcb81c6434dc052ab8a0ecc10af5e081ba" data-r="CxyYuan.github.io" data-o="CxyYuan" data-a="CxyYuan" data-d="false">查看评论</div>
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='9d79f99be815238e8471'
+        data-cs='0ba03abcb81c6434dc052ab8a0ecc10af5e081ba'
+        data-r='CxyYuan.github.io'
+        data-o='CxyYuan'
+        data-a='CxyYuan'
+        data-d='false'
+    >查看评论</div>
 
 
     </div>
