@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>docker配置redis - Cxy的博客</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Springboot,"> 
+    <meta name="description" content="以下是自己记录docker整合redis那4个小时的采坑总结
+安装准备搜索redis镜像1docker search redis
+拉取redis镜像，选择stars高分的1docker pull d,"> 
+    <meta name="author" content="Cxy"> 
+    <link rel="alternative" href="atom.xml" title="Cxy的博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">Cxy的博客</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://CxyYuan.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">docker配置redis</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">docker配置redis</h1>
+        <div class="stuff">
+            <span>七月 06, 2020</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/docker/">docker</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/redis/">redis</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>以下是自己记录docker整合redis那4个小时的采坑总结</p>
+<h2 id="安装准备"><a href="#安装准备" class="headerlink" title="安装准备"></a>安装准备</h2><h4 id="搜索redis镜像"><a href="#搜索redis镜像" class="headerlink" title="搜索redis镜像"></a>搜索redis镜像</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search redis</span><br></pre></td></tr></table></figure>
+<h4 id="拉取redis镜像，选择stars高分的"><a href="#拉取redis镜像，选择stars高分的" class="headerlink" title="拉取redis镜像，选择stars高分的"></a>拉取redis镜像，选择stars高分的</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull docker.io/redis</span><br></pre></td></tr></table></figure>
+<p><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/docker-%E9%85%8D%E7%BD%AEredis/20200706030115695.png" alt></p>
+<h4 id="查看拉取的redis镜像"><a href="#查看拉取的redis镜像" class="headerlink" title="查看拉取的redis镜像"></a>查看拉取的redis镜像</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/docker-%E9%85%8D%E7%BD%AEredis/20200706030153018.png" alt></p>
+<h4 id="准备redis的一些配置文件"><a href="#准备redis的一些配置文件" class="headerlink" title="准备redis的一些配置文件"></a>准备redis的一些配置文件</h4><p>首先在/mydata/redis/data 创建好文件夹用于存放redis数据，这个文件夹位置也可以自己选。</p>
+<p>然后在/mydata/redis/conf 创建好redis.conf文件。用户redis的配置。redis.conf可以从redis官网下载 然后启动的时候导入redis的配置文件，就可以按照配置来启动了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/redis</span><br><span class="line">mkdir /root/redis/data</span><br><span class="line">mkdir /root/redis/conf</span><br></pre></td></tr></table></figure></p>
+<h4 id="在conf目录下下载redis的配置文件"><a href="#在conf目录下下载redis的配置文件" class="headerlink" title="在conf目录下下载redis的配置文件"></a>在conf目录下下载redis的配置文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/antirez/redis/5.0/redis.conf -O redis.conf</span><br></pre></td></tr></table></figure>
+<h4 id="redis配置文件修改"><a href="#redis配置文件修改" class="headerlink" title="redis配置文件修改"></a>redis配置文件修改</h4><p><a href="https://www.cnblogs.com/kreo/p/4423362.html" target="_blank" rel="noopener">redis配置文件详解</a><br>vim redis.conf注释掉bind 127.0.0.1<br>修改 protected-mode yes<br>     appendonly yes<br>     requirepass 密码</p>
+<h4 id="docker启动redis"><a href="#docker启动redis" class="headerlink" title="docker启动redis"></a>docker启动redis</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host --name=myRedis -v /mydata/redis/data:/data -v /mydata/redis/conf/redis.conf:/etc/redis/redis.conf docker.io/redis  redis-server /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<ol>
+<li>-d –net=host :让docker以host主机的桥接方式启动</li>
+<li>-v /mydata/redis/data:/data :把redis持久化的数据在宿主机内显示，做数据备份</li>
+<li>-v /mydata/redis/conf/redis.conf:/etc/redis/redis.conf :把宿主机配置好的redis.conf放到容器内的这个位置中’</li>
+<li>redis-server /etc/redis/redis.conf :让redis不是无配置启动，而是按照这个redis.conf的配置启动</li>
+<li>–appendonly yes :redis启动后数据持久化</li>
+</ol>
+<h4 id="查看启动"><a href="#查看启动" class="headerlink" title="查看启动"></a>查看启动</h4><figure class="highlight docker"><figcaption><span>ps```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#### 进入redis</span></span><br><span class="line">``` docker exec -ti myRedis redis-cli</span><br></pre></td></tr></table></figure>
+<p><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/docker-%E9%85%8D%E7%BD%AEredis/20200706031722970.png" alt></p>
+<h4 id="简单的redis指令"><a href="#简单的redis指令" class="headerlink" title="简单的redis指令"></a>简单的redis指令</h4><p><img src="http://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/docker-%E9%85%8D%E7%BD%AEredis/20200706032528215.png" alt></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/xiangwozheyangderen.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='https://cxy-blog-1259223943.cos.ap-shanghai.myqcloud.com/static/%E5%9A%A3%E5%BC%A0_EN_545b_0708_535b_c1d7f5b6540b12556a69d1145fe26d1f.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable=''
+        data-ae='false'
+        data-ci='9d79f99be815238e8471'
+        data-cs='0ba03abcb81c6434dc052ab8a0ecc10af5e081ba'
+        data-r='CxyYuan.github.io'
+        data-o='CxyYuan'
+        data-a='CxyYuan'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-140822910-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+</html>
