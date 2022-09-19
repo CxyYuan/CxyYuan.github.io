@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="Springboot,"> 
-    <meta name="description" content="前言java web 下有好几种日志框架，比如：logback，log4j，log4j2（slj4f 并不是一种日志框架，它相当于定义了规范，实现了这个规范的日志框架就能够用 slj4f 调用）。其,"> 
+    <meta name="description" content="1、直接使用 ​​yum​​命令进行安装。1234##安装依赖yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl,"> 
     <meta name="author" content="Cxy"> 
     <link rel="alternative" href="atom.xml" title="Cxy的博客" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -50,7 +50,10 @@
 
         </div>
         <div class="content markdown">
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>java web 下有好几种日志框架，比如：logback，log4j，log4j2（slj4f 并不是一种日志框架，它相当于定义了规范，实现了这个规范的日志框架就能够用 slj4f 调用）。其中性能最高的应该使 logback 了，而且 springboot 默认使用的也是 logback 日志，所以本篇将会详细的讲解 logback 的日志配置方案。</p>
+            <h2 id="1、直接使用-​​yum​​命令进行安装。"><a href="#1、直接使用-​​yum​​命令进行安装。" class="headerlink" title="1、直接使用 ​​yum​​命令进行安装。"></a>1、直接使用 ​​yum​​命令进行安装。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">##安装依赖</span><br><span class="line">yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-devel</span><br><span class="line">##安装本体</span><br><span class="line">yum install nginx -y</span><br></pre></td></tr></table></figure>
+<h2 id="2、启动Nginx"><a href="#2、启动Nginx" class="headerlink" title="2、启动Nginx"></a>2、启动Nginx</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx</span><br><span class="line">systemctl status nginx</span><br></pre></td></tr></table></figure>
+<h2 id="3、在浏览器访问​​公网IP​​，出现此页面证明Nginx安装成功。"><a href="#3、在浏览器访问​​公网IP​​，出现此页面证明Nginx安装成功。" class="headerlink" title="3、在浏览器访问​​公网IP​​，出现此页面证明Nginx安装成功。"></a>3、在浏览器访问​​公网IP​​，出现此页面证明Nginx安装成功。</h2><h2 id="4、进入Nginx的配置文件目录。"><a href="#4、进入Nginx的配置文件目录。" class="headerlink" title="4、进入Nginx的配置文件目录。"></a>4、进入Nginx的配置文件目录。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/nginx</span><br></pre></td></tr></table></figure>
+<h2 id="5、查看​​nginx-conf​​文件。"><a href="#5、查看​​nginx-conf​​文件。" class="headerlink" title="5、查看​​nginx.conf​​文件。"></a>5、查看​​nginx.conf​​文件。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim nginx.conf</span><br></pre></td></tr></table></figure>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
